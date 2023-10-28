@@ -16,8 +16,7 @@ import java.util.stream.Collectors;
 public class ResultadoService {
     @Autowired
     ResultadoRepository resultadoRepository;
-    @Autowired
-    ComputadorRepository computadorRepository;
+
 
 
     public List<ResultadoDTO> comparar() {

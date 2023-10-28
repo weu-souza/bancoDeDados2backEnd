@@ -1,0 +1,58 @@
+Create table
+
+computador
+
+CREATE TABLE IF NOT EXISTS public.computador
+(
+    id bigint NOT NULL DEFAULT nextval('computador_id_seq'::regclass),
+    descricao character varying(255) COLLATE pg_catalog."default",
+    nome character varying(255) COLLATE pg_catalog."default",
+    CONSTRAINT computador_pkey PRIMARY KEY (id)
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.computador
+    OWNER to postgres;
+
+comparacao
+
+CREATE TABLE IF NOT EXISTS public.comparacao
+(
+    id bigint NOT NULL DEFAULT nextval('comparacao_id_seq'::regclass),
+    memoria_ram_nota integer NOT NULL,
+    memoria_ram_peso integer NOT NULL,
+    placa_de_video_nota integer NOT NULL,
+    placa_de_video_peso integer NOT NULL,
+    processador_nota integer NOT NULL,
+    processador_peso integer NOT NULL,
+    computador_id bigint,
+    CONSTRAINT comparacao_pkey PRIMARY KEY (id),
+    CONSTRAINT fkh6mh0emknc6w66443fq9k1f6u FOREIGN KEY (computador_id)
+        REFERENCES public.computador (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT comparacao_memoria_ram_nota_check CHECK (memoria_ram_nota > 0 AND memoria_ram_nota < 6),
+    CONSTRAINT comparacao_memoria_ram_peso_check CHECK (memoria_ram_peso > 0 AND memoria_ram_peso < 4),
+    CONSTRAINT comparacao_placa_de_video_nota_check CHECK (placa_de_video_nota > 0 AND placa_de_video_nota < 6),
+    CONSTRAINT comparacao_placa_de_video_peso_check CHECK (placa_de_video_peso > 0 AND placa_de_video_peso < 4),
+    CONSTRAINT comparacao_processador_nota_check CHECK (processador_nota > 0 AND processador_nota < 6),
+    CONSTRAINT comparacao_processador_peso_check CHECK (processador_peso > 0 AND processador_peso < 4)
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.comparacao
+    OWNER to postgres;
+
+
+criar a view que vai trazer o resultado
+	
+	Create view resultadov as
+	select co.id, com.nome,com.descricao, co.memoria_ram_nota*memoria_ram_peso+
+	co.placa_de_video_nota*co.placa_de_video_peso+
+	co.processador_nota*co.processador_peso as resultado from computador com, comparacao co where co.computador_id = com.id;
+
+criar a view que vai trazer o melhor resultado o maior valor
+
+create view  maior_valor as select  max(v.resultado) as melhor_avaliacao from resultadov v
