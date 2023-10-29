@@ -19,7 +19,7 @@ comparacao
 
 CREATE TABLE IF NOT EXISTS public.comparacao
 (
-    id bigint NOT NULL DEFAULT nextval('comparacao_id_seq'::regclass),
+    id INTEGER NOT NULL DEFAULT nextval('comparacao_id_seq'::regclass),
     memoria_ram_nota integer NOT NULL,
     memoria_ram_peso integer NOT NULL,
     placa_de_video_nota integer NOT NULL,
@@ -46,13 +46,9 @@ ALTER TABLE IF EXISTS public.comparacao
     OWNER to postgres;
 
 
-criar a view que vai trazer o resultado
+criar a view que vai trazer o resultado da do peso*a nota
 	
-	Create view resultadov as
-	select co.id, com.nome,com.descricao, co.memoria_ram_nota*memoria_ram_peso+
+		Create view resultadov as
+	select co.id, com.nome, (co.memoria_ram_nota*co.memoria_ram_peso+
 	co.placa_de_video_nota*co.placa_de_video_peso+
-	co.processador_nota*co.processador_peso as resultado from computador com, comparacao co where co.computador_id = com.id;
-
-criar a view que vai trazer o melhor resultado o maior valor
-
-create view  maior_valor as select  max(v.resultado) as melhor_avaliacao from resultadov v
+	co.processador_nota*co.processador_peso) as resultado from computador com inner join comparacao co on com.id = co.computador_id
