@@ -4,6 +4,7 @@ package br.edu.ifg.bancodedados2.Comparacao.Controller;
 import br.edu.ifg.bancodedados2.Comparacao.Model.ComparacaoDto;
 
 import br.edu.ifg.bancodedados2.Comparacao.Service.ComparacaoService;
+import br.edu.ifg.bancodedados2.Computador.Model.ComputadorDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,14 +20,20 @@ public class ComparacaoController {
     @Autowired
     private ComparacaoService comparacaoService;
 
-    @GetMapping(value = "/computador/{id}")
-    public ResponseEntity<List<ComparacaoDto>> findByComputador(@PathVariable Long id) {
-        List<ComparacaoDto> list = comparacaoService.findByComputador(id);
-        if (list != null) {
-            return ResponseEntity.ok().body(list);
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<ComparacaoDto> findById(@PathVariable Integer id) {
+        ComparacaoDto dto = comparacaoService.findById(id);
+        if (dto != null) {
+            return ResponseEntity.ok().body(dto);
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @GetMapping
+    public ResponseEntity<List<ComparacaoDto>> findAll() {
+        List<ComparacaoDto> list = comparacaoService.findAll();
+        return ResponseEntity.ok().body(list);
     }
 
     @PostMapping(value = "/{id}")
@@ -44,7 +51,7 @@ public class ComparacaoController {
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<ComparacaoDto> update(@PathVariable Long id, @RequestBody ComparacaoDto dto) {
+    public ResponseEntity<ComparacaoDto> update(@PathVariable Integer id, @RequestBody ComparacaoDto dto) {
         dto = comparacaoService.update(id, dto);
         if (dto != null) {
             return ResponseEntity.ok().body(dto);
@@ -54,7 +61,7 @@ public class ComparacaoController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<ComparacaoDto> delete(@PathVariable Long id) {
+    public ResponseEntity<ComparacaoDto> delete(@PathVariable Integer id) {
         if (comparacaoService.delete(id)) {
             return ResponseEntity.noContent().build();
         } else {

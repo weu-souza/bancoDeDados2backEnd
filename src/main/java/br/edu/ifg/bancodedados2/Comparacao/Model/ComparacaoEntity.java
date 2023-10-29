@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 public class ComparacaoEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Integer id;
     @NotNull
     private int processadorPeso;
     @NotNull
@@ -32,6 +32,7 @@ public class ComparacaoEntity {
     private ComputadorEntity computador;
 
     public ComparacaoEntity(ComparacaoDto dto) {
+        this.id = dto.getId();
         this.memoriaRamNota = dto.getMemoriaRamNota();
         this.memoriaRamPeso = dto.getMemoriaRamPeso();
         this.placaDeVideoNota = dto.getPlacaDeVideoNota();

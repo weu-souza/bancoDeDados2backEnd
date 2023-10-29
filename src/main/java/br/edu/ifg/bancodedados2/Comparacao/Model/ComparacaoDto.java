@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class ComparacaoDto {
-    private long id;
+    private Integer id;
     private int processadorPeso;
 
     private int placaDeVideoPeso;
@@ -20,6 +20,7 @@ public class ComparacaoDto {
     private int memoriaRamNota;
 
     public ComparacaoDto(ComparacaoEntity entity) {
+        this.id = entity.getId();
         this.memoriaRamNota = entity.getMemoriaRamNota();
         this.memoriaRamPeso = entity.getMemoriaRamPeso();
         this.placaDeVideoNota = entity.getPlacaDeVideoNota();

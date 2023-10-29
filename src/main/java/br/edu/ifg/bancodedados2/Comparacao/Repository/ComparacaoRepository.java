@@ -9,7 +9,7 @@ import java.util.List;
 
 
 @Repository
-public interface ComparacaoRepository extends JpaRepository<ComparacaoEntity, Long> {
+public interface ComparacaoRepository extends JpaRepository<ComparacaoEntity, Integer> {
 
 
     List<ComparacaoEntity> findByComputador(ComputadorEntity computador);
