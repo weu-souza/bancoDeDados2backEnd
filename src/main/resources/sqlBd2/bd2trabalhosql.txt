@@ -52,3 +52,7 @@ criar a view que vai trazer o resultado da do peso*a nota
 	select co.id, com.nome, (co.memoria_ram_nota*co.memoria_ram_peso+
 	co.placa_de_video_nota*co.placa_de_video_peso+
 	co.processador_nota*co.processador_peso) as resultado from computador com inner join comparacao co on com.id = co.computador_id
+
+	criar a view que vai trazer o resultado maior
+	create view  maior_valor as
+    	select  max(v.resultado) as melhor_avaliacao from resultadov v
